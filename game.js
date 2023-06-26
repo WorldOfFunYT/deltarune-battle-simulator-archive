@@ -2,6 +2,10 @@ const gameCanvas = document.querySelector("canvas[data-game]");
 const ctx = gameCanvas.getContext("2d");
 gameCanvas.width = 640;
 gameCanvas.height = 480;
+let team = {
+    members: characters.filter(character => character.constructor.name == "Player").slice(0, 3),
+    tp: 100
+}
 
 function frame(gameCanvas, ctx) {
 
@@ -47,16 +51,69 @@ function frame(gameCanvas, ctx) {
 
     }
 
+    function renderTP(ctx, tp) {
+
+        const x = 41;
+        const y = 45;
+        const width = 19;
+        const height = 187;
+        ctx.fillStyle = colours.black;
+        ctx.fillRect(x - 3, y - 4, width + 6, height + 8);
+        ctx.fillStyle = colours.darkRed;
+        ctx.fill()
+
+        const progressHeight = (Math.max(0, -tp + 100) / 100) * height
+        ctx.fillStyle = colours.orange;
+        if (tp >= 100) ctx.fillStyle = colours.yellow;
+        ctx.fillRect(x, y, width, height);
+
+        ctx.fillStyle = colours.darkRed;
+        ctx.fillRect(x, y, width, progressHeight);
+        // ctx.fill()
+        ctx.beginPath()
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + width, y);
+        ctx.lineTo(x, y + width);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        ctx.fillStyle = colours.black;
+        ctx.fill()
+        ctx.beginPath()
+        ctx.moveTo(x, y + height);
+        ctx.lineTo(x + width, y + height);
+        ctx.lineTo(x + width, y - width + height);
+        ctx.lineTo(x, y + height);
+        ctx.fill()
+        ctx.closePath();
+
+        ctx.fillStyle = colours.white
+        ctx.font = "italic 16px dotumChePixel";
+        ctx.textAlign = "left"
+        ctx.fillText("T", x - 33, y + 30)
+        ctx.fillText("P", x - 33, y + 50)
+        if (tp < 100) {
+            ctx.fillText(tp, x - 33, y + 70);
+            ctx.fillText("%", x - 33, y + 90);
+
+        } else {
+            ctx.fillStyle = colours.brightYellow;
+            ctx.fillText("M", x - 33, y + 70);
+            ctx.fillText("A", x - 31, y + 90);
+            ctx.fillText("X", x - 29, y + 110);
+        }
+
+    }
+
     ctx.fillStyle = colours.black;
     ctx.fillRect(0, 365, gameCanvas.width, 115);
     ctx.fillStyle = colours.borderPurple;
     ctx.fillRect(0, 362, gameCanvas.width, 3);
     // Do textbox stuff
-    team = characters.filter(character => character.constructor.name == "Player").slice(0, 3)
-    for (let i = 0; i < team.length; i++) {
+    for (let i = 0; i < team.members.length; i++) {
         active = i == 0;
-        renderPlayer(active, i, team, ctx)
+        renderPlayer(active, i, team.members, ctx)
     }
+    renderTP(ctx, team.tp);
 }
 
 
