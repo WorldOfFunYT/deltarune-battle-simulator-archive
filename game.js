@@ -2,7 +2,8 @@ const gameCanvas = document.querySelector("canvas[data-game]");
 const ctx = gameCanvas.getContext("2d");
 let team = {
     members: characters.filter(character => character.constructor.name == "Player").slice(0, 3),
-    tp: 0
+    tp: 0,
+    activePlayer: 0
 }
 
 function frame(timeStamp) {
@@ -128,8 +129,8 @@ function frame(timeStamp) {
     ctx.fillRect(0, 362, gameCanvas.width, 3);
     // Do textbox stuff
     for (let i = 0; i < team.members.length; i++) {
-        active = i == 0;
-        renderPlayer(active, i, team.members, ctx)
+
+        renderPlayer(i == team.activePlayer, i, team.members, ctx)
     }
     team.tp = Math.min(team.tp + 0.1, 100);
     renderTP(ctx, team.tp);
