@@ -1,47 +1,52 @@
 Contents
 - [Deltarune Battle Simulator](#deltarune-battle-simulator)
-  - [To-be-completed features](#to-be-completed-features)
-  - [New Features](#new-features)
-    - [Custom characters](#custom-characters)
+  - [To-do](#to-do)
 
 # Deltarune Battle Simulator
 
-![Most recent preview of the battle simulator](assets/images/preview.png) (What I have so far)
+![Most recent preview of the battle simulator](assets/images/preview.png)
+> What I have so far
 
 Deltarune Battle Simulator is a project I'm working on that will attempt to recreate the battle system in [Deltarune](https://deltarune.com).
 
-## To-be-completed features
-This is in the very early stages of development, so there are a lot of things to do.
-- The UI
-- - Flavour text box
-- - TP Bar
-- Character sprites
-- Turns
-- - FIGHT
-- - ACT
-- - MAGIC
-- - ITEM
-- - DEFEND
-- - SPARE
-- Bullet board
-- - Bullet patterns
-- Controls
-- Status effects
-- - Down
-- - Tired
-- - Sleepy
-- - Warned
-- - Frozen
-- Winning
-- Losing
-- Party select
-- Enemy select
-- Item select
-- Armour select
-- Weapon select
+## To-do
+- [ ] Visuals
+  - [ ] Backgrounds
+  - [x] TP Bar
+  - [x] Deselected Character
+  - [x] Selected Character
+  - [ ] Textbox
+  - [ ] Teammates
+  - [ ] Enemies
+- [ ] Actions
+  - [ ] FIGHT
+  - [ ] ACT
+  - [ ] MAGIC
+  - [ ] ITEM
+  - [ ] DEFEND
+  - [ ] SPARE
+- [ ] Enemy Turn
+  - [ ] Bullet Board
+  - [ ] Bullet Patterns
+- [ ] Controls 
+- [ ] Status Effects
+  - [ ] Down
+  - [ ] Tired
+  - [ ] Sleepy
+  - [ ] Warned
+  - [ ] Frozen
+- [ ] Game end
+  - [ ] Winning
+  - [ ] Losing
+- [ ] Pre-battle (selecting stuff)
+  - [ ] Party Select
+    - [ ] Presets
+  - [ ] Enemy Select
+    - [ ] Enemy Presets
+  - [ ] Item Select
+  - [ ] Armour Select
+  - [ ] Weapon Select
+- [ ] GitHub README
+  - [ ] Custom Character Tutorial (do once everything above is completed)
+  - [x] To-do List
 
-
-## New Features
-### Custom characters
-You can create your own custom team members or enemies!
-A guide will be made once there is more functionality to the program
