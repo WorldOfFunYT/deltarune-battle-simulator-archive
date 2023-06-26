@@ -33,7 +33,7 @@ fetch('./modules.json')
     .then((json) => {
         for (module of json) {
             elem = document.createElement('script');
-            elem.src = `modules/${module}.js`
+            elem.src = `modules/${module}/index.js`
             document.body.appendChild(elem)
         }
         gameScript = document.createElement('script')
