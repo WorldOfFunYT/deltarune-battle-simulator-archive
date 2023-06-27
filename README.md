@@ -28,7 +28,7 @@ Deltarune Battle Simulator is a project I'm working on that will attempt to recr
 - [ ] Enemy Turn
   - [ ] Bullet Board
   - [ ] Bullet Patterns
-- [ ] Controls 
+- [x] Controls 
 - [ ] Status Effects
   - [ ] Down
   - [ ] Tired

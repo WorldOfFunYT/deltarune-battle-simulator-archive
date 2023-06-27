@@ -1,10 +1,10 @@
 const gameCanvas = document.querySelector("canvas[data-game]");
 const ctx = gameCanvas.getContext("2d");
-let team = {
-    members: characters.filter(character => character.constructor.name == "Player").slice(0, 3),
-    tp: 0,
-    activePlayer: 0
-}
+const controller = new Controller()
+
+let currentTurn = "team";
+
+const team = new Team(characters.filter(character => character.constructor.name == "Player").slice(0, 3))
 
 function frame(timeStamp) {
     gameCanvas.width = 640;
@@ -121,6 +121,10 @@ function frame(timeStamp) {
             ctx.fillText("X", x - 29, y + 110);
         }
 
+    }
+
+    if (currentTurn == "team") {
+        team.handleControls(controller)
     }
 
     ctx.fillStyle = colours.black;
