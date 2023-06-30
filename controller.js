@@ -1,4 +1,5 @@
 class Controller {
+    up
     constructor() {
         this.up = false;
         this.down = false;
@@ -67,6 +68,25 @@ class Controller {
                     this.other = false;
                     break;
             }
+        }
+    }
+
+    keyPressed(key) {
+        switch (key) {
+            case "up":
+                return this.up && !this.upPressed
+            case "down":
+                return this.down && !this.downPressed
+            case "left":
+                return this.left && !this.leftPressed
+            case "right":
+                return this.right && !this.rightPressed
+            case "interact":
+                return this.interact && !this.interactPressed
+            case "return":
+                return this.return && !this.returnPressed
+            case "other":
+                return this.other && !this.otherPressed
         }
     }
 }

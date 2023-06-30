@@ -1,12 +1,18 @@
 const gameCanvas = document.querySelector("canvas[data-game]");
 const ctx = gameCanvas.getContext("2d");
 const controller = new Controller()
+const textBox = new TextBox(ctx)
 
 let currentTurn = "team";
 
-const team = new Team(characters.filter(character => character.constructor.name == "Player").slice(0, 3))
-
+const team = new Team(characters.filter(character => character.constructor.name == "Player").slice(0, 3));
+const enemyTeam = [characters.filter(character => character.constructor.name == "Enemy")[0], characters.filter(character => character.constructor.name == "Enemy")[0]];
+let flavourTextId;
+let lastTurn = 0;
 function frame(timeStamp) {
+    if (!flavourTextId) {
+        flavourTextId = Math.floor(Math.random() * enemyTeam[0].flavourText.filter(text => text.condition == "encounter").length)
+    }
     gameCanvas.width = 640;
     gameCanvas.height = 480;
 
@@ -20,11 +26,26 @@ function frame(timeStamp) {
 
         const containerWidth = 640
         const boxWidth = 213.5;
+        const teamLength = team.length;
 
         let availibleSpace = containerWidth - (boxWidth * team.length);
-        let gapSize = availibleSpace / (team.length + 1);
+        let gapSize;
 
-        let x = gapSize + (playerIndex * (boxWidth + gapSize));
+        if (teamLength <= 2) {
+            gapSize = (availibleSpace - boxWidth) / 2;
+        } else {
+            gapSize = availibleSpace / (teamLength - 1);
+        }
+
+        let x;
+
+        if (teamLength === 1) {
+            x = (containerWidth - boxWidth) / 2;
+        } else if (teamLength === 2) {
+            x = (containerWidth - (boxWidth * teamLength)) / 2 + playerIndex * boxWidth;
+        } else {
+            x = gapSize + (playerIndex * boxWidth);
+        }
         if (active) {
             border = player.colour
             y = 294;
@@ -106,7 +127,7 @@ function frame(timeStamp) {
         ctx.closePath();
 
         ctx.fillStyle = colours.white
-        ctx.font = "italic 16px dotumChePixel";
+        ctx.font = "italic bold 28px eightBitOperator";
         ctx.textAlign = "left"
         ctx.fillText("T", x - 33, y + 30)
         ctx.fillText("P", x - 33, y + 50)
@@ -123,15 +144,35 @@ function frame(timeStamp) {
 
     }
 
-    if (currentTurn == "team") {
-        team.handleControls(controller)
+    function flavourText() {
+        if (team.turn === 0) {
+            textBox.text([enemyTeam[0].flavourText.filter(text =>
+                text.condition == "encounter"
+            )[flavourTextId].text])
+        } else {
+            textBox.text([enemyTeam[0].flavourText.filter(text =>
+                !text.condition
+            )[flavourTextId].text])
+
+        }
+
     }
 
-    ctx.fillStyle = colours.black;
-    ctx.fillRect(0, 365, gameCanvas.width, 115);
-    ctx.fillStyle = colours.borderPurple;
-    ctx.fillRect(0, 362, gameCanvas.width, 3);
-    // Do textbox stuff
+    if (currentTurn == "team") {
+        team.handleControls(controller, enemyTeam.length)
+    }
+
+    textBox.update()
+    if (lastTurn != team.turn) {
+        textBox.textIndex = 0;
+    }
+    switch (team.members[team.activePlayer].menu) {
+        case 0:
+            flavourText()
+            break;
+        case 1:
+            textBox.enemySelect(enemyTeam)
+    }
     for (let i = 0; i < team.members.length; i++) {
 
         renderPlayer(i == team.activePlayer, i, team.members, ctx)
@@ -139,6 +180,7 @@ function frame(timeStamp) {
     team.tp = Math.min(team.tp + 0.1, 100);
     renderTP(ctx, team.tp);
     requestAnimationFrame(frame)
+    lastTurn = team.turn;
 }
 
 

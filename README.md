@@ -16,8 +16,12 @@ Deltarune Battle Simulator is a project I'm working on that will attempt to recr
   - [x] Deselected Character
   - [x] Selected Character
   - [ ] Textbox
+    - [x] Flavour Text
+    - [ ] Enemy List
+    - [ ] Action List
   - [ ] Teammates
   - [ ] Enemies
+  - [ ] Action Icons
 - [ ] Actions
   - [ ] FIGHT
   - [ ] ACT
@@ -36,8 +40,8 @@ Deltarune Battle Simulator is a project I'm working on that will attempt to recr
   - [ ] Warned
   - [ ] Frozen
 - [ ] Game end
-  - [ ] Winning
-  - [ ] Losing
+  - [ ] WIN
+  - [ ] LOSE
 - [ ] Pre-battle (selecting stuff)
   - [ ] Party Select
     - [ ] Presets

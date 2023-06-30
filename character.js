@@ -1,7 +1,9 @@
 class Character {
-    constructor(name, health, sprites) {
+    constructor(name, health, attack, defence, sprites) {
         this.name = name;
         this.health = health;
+        this.attack = attack;
+        this.defence = defence;
         this.maxHealth = health;
         this.sprites = sprites;
         for (let sprite in this.sprites) {
@@ -13,15 +15,19 @@ class Character {
 }
 
 class Player extends Character {
-    constructor(name, health, colour, sprites) {
-        super(name, health, sprites)
+    constructor(name, health, attack, defence, colour, sprites) {
+        super(name, health, attack, defence, sprites)
         this.colour = colour;
         this.selectedAction = 0;
+        this.menu = 0;
+        this.target = 0;
     }
 }
 
 class Enemy extends Character {
-    constructor(name, health, sprites) {
-        super(name, health, sprites)
+    constructor(name, health, attack, defence, sprites, flavourText) {
+        super(name, health, attack, defence, sprites)
+        this.flavourText = flavourText;
+        this.targets = []
     }
 }
