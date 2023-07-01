@@ -175,6 +175,7 @@ function frame(timeStamp) {
     if (currentTurn == "team") {
         team.handleControls(controller, enemyTeam.length)
     }
+    controller.update();
 
     textBox.update()
     if (lastTurn != team.turn) {
