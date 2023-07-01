@@ -1,9 +1,22 @@
 const gameCanvas = document.querySelector("canvas[data-game]");
 const ctx = gameCanvas.getContext("2d");
 const controller = new Controller()
-const textBox = new TextBox(ctx)
 
+ctx.webkitImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
+
+const devicePixelRatio = window.devicePixelRatio || 1;
+const backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+    ctx.mozBackingStorePixelRatio ||
+    ctx.msBackingStorePixelRatio ||
+    ctx.oBackingStorePixelRatio ||
+    ctx.backingStorePixelRatio || 1;
+const ratio = devicePixelRatio / backingStoreRatio;
+const WIDTH = gameCanvas.offsetWidth * ratio;
+const HEIGHT = gameCanvas.offsetHeight * ratio;
 let currentTurn = "team";
+const textBox = new TextBox(gameCanvas)
 
 const team = new Team(characters.filter(character => character.constructor.name == "Player").slice(0, 3));
 const enemyTeam = [characters.filter(character => character.constructor.name == "Enemy")[0], characters.filter(character => character.constructor.name == "Enemy")[0]];
@@ -13,8 +26,9 @@ function frame(timeStamp) {
     if (!flavourTextId) {
         flavourTextId = Math.floor(Math.random() * enemyTeam[0].flavourText.filter(text => text.condition == "encounter").length)
     }
-    gameCanvas.width = 640;
-    gameCanvas.height = 480;
+    gameCanvas.width = WIDTH;
+    gameCanvas.height = HEIGHT;
+    ctx.scale(ratio, ratio);
 
 
     function renderPlayer(active, playerIndex, team, ctx) {
@@ -24,7 +38,7 @@ function frame(timeStamp) {
         let border;
         let y;
 
-        const containerWidth = 640
+        const containerWidth = gameCanvas.width
         const boxWidth = 213.5;
         const teamLength = team.length;
 
@@ -48,21 +62,21 @@ function frame(timeStamp) {
         }
         if (active) {
             border = player.colour
-            y = 294;
+            y = 294 - 480 + gameCanvas.height;
 
             ctx.fillStyle = player.colour;
-            ctx.fillRect(x, 331, 213, 33);
+            ctx.fillRect(x, 331 - 480 + gameCanvas.height, 213, 33);
             ctx.fillStyle = colours.black;
-            ctx.fillRect(x + 2, 332, 209, 32);
+            ctx.fillRect(x + 2, 332 - 480 + gameCanvas.height, 209, 32);
             for (let i = 0; i < 5; i++) {
                 ctx.fillStyle = player.selectedAction == i ? colours.brightYellow : colours.orange
-                ctx.fillRect(x + 20 + (i * 35), 335.5, 30, 25);
+                ctx.fillRect(x + 20 + (i * 35), 335.5 - 480 + gameCanvas.height, 30, 25);
             }
             // ctx.fillStyle = colours.orange;
             // ctx.fillRect
         } else {
             border = colours.borderPurple
-            y = 327;
+            y = 327 - 480 + gameCanvas.height;
         }
 
         ctx.textAlign = "left"
@@ -93,10 +107,10 @@ function frame(timeStamp) {
 
     function renderTP(ctx, tp) {
         tp = Math.floor(tp)
-        const x = 41;
-        const y = 45;
         const width = 19;
         const height = 187;
+        const x = 41;
+        const y = Math.max((gameCanvas.height - 118) / 2 - height, (gameCanvas.height - 118) / 2 - height / 2);
         ctx.fillStyle = colours.black;
         ctx.fillRect(x - 3, y - 4, width + 6, height + 8);
         ctx.fillStyle = colours.darkRed;
@@ -171,7 +185,7 @@ function frame(timeStamp) {
             flavourText()
             break;
         case 1:
-            textBox.enemySelect(enemyTeam)
+            textBox.enemySelect(enemyTeam, ctx, team.members[team.activePlayer])
     }
     for (let i = 0; i < team.members.length; i++) {
 

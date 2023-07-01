@@ -1,5 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 .game {
     background: hsl(300, 100%, 50%);
     /* background: hsl(300, 100%, 0%); */
-    /* width: 50%; */
+    width: 960px;
+    height: 720px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }

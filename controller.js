@@ -1,5 +1,4 @@
 class Controller {
-    up
     constructor() {
         this.up = false;
         this.down = false;
@@ -71,22 +70,72 @@ class Controller {
         }
     }
 
-    keyPressed(key) {
+    keyPressed(key, action) {
+        if (!action) return this.#keyPress(key)
+        if (this.#keyPress(key)) {
+            action();
+            switch (key) {
+                case "up":
+                    this.upPressed = true;
+                    break;
+                case "down":
+                    this.downPressed = true;
+                    break;
+                case "left":
+                    this.leftPressed = true;
+                    break;
+                case "right":
+                    this.rightPressed = true;
+                    break;
+                case "interact":
+                    this.interactPressed = true;
+                    break;
+                case "return":
+                    this.returnPressed = true;
+                    break;
+                case "other":
+                    this.otherPressed = true;
+                    break;
+            }
+        }
+    }
+    #getKeyVariables(key) {
         switch (key) {
             case "up":
-                return this.up && !this.upPressed
+                return [this.up, this.upPressed]
             case "down":
-                return this.down && !this.downPressed
+                return [this.down, this.downPressed]
             case "left":
-                return this.left && !this.leftPressed
+                return [this.left, this.leftPressed]
             case "right":
-                return this.right && !this.rightPressed
+                return [this.right, this.rightPressed]
             case "interact":
-                return this.interact && !this.interactPressed
+                return [this.interact, this.interactPressed]
             case "return":
-                return this.return && !this.returnPressed
+                return [this.return, this.returnPressed]
             case "other":
-                return this.other && !this.otherPressed
+                return [this.other, this.otherPressed]
         }
+    }
+    #keyPress(key) {
+        const keyVariables = this.#getKeyVariables(key)
+        return keyVariables[0] && !keyVariables[1]
+        // switch (key) {
+        //     case "up":
+        //         return this.up && !this.upPressed
+        //     case "down":
+        //         return this.down && !this.downPressed
+        //     case "left":
+        //         return this.left && !this.leftPressed
+        //     case "right":
+        //         return this.right && !this.rightPressed
+        //     case "interact":
+        //         return this.interact && !this.interactPressed
+        //     case "return":
+        //         return this.return && !this.returnPressed
+        //     case "other":
+        //         return this.other && !this.otherPressed
+        // }
+
     }
 }

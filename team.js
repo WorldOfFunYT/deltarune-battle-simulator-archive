@@ -10,17 +10,13 @@ class Team {
         const currentPlayer = this.members[this.activePlayer]
         if (!currentPlayer) return
         switch (currentPlayer.menu) {
-            case 0:
-                if (controller.keyPressed("right")) {
-                    currentPlayer.selectedAction += 1
-                    controller.rightPressed = true
-                } else if (!controller.right) {
+            case 0: // Action selecting
+                controller.keyPressed("right", () => currentPlayer.selectedAction++)
+                if (!controller.right) {
                     controller.rightPressed = false;
                 }
-                if (controller.keyPressed("left")) {
-                    currentPlayer.selectedAction -= 1
-                    controller.leftPressed = true
-                } else if (!controller.left) {
+                controller.keyPressed("left", () => currentPlayer.selectedAction--)
+                if (!controller.left) {
                     controller.leftPressed = false;
                 }
                 if (currentPlayer.selectedAction > 4) {
@@ -29,7 +25,7 @@ class Team {
                 if (currentPlayer.selectedAction < 0) {
                     currentPlayer.selectedAction += 5
                 }
-                if (controller.keyPressed("interact")) {
+                controller.keyPressed("interact", () => {
                     if (currentPlayer.selectedAction == 4) {
 
                         this.activePlayer += 1;
@@ -42,35 +38,40 @@ class Team {
                     } else {
                         currentPlayer.menu = 1
                     }
-                    controller.interactPressed = true
-                } else if (!controller.interact) {
+                })
+                if (!controller.interact) {
                     controller.interactPressed = false
                 }
-                if (controller.keyPressed("return")) {
+
+                controller.keyPressed("return", () => {
                     this.activePlayer = Math.max(this.activePlayer - 1, 0);
                     controller.returnPressed = true
-                } else if (!controller.return) {
+                });
+
+                if (!controller.return) {
                     controller.returnPressed = false
                 }
                 break;
             case 1:
-                if (controller.keyPressed("up")) {
-                    currentPlayer.target--;
-                    if (currentPlayer.target < 0) {
-                        currentPlayer.target += enemyTeamLength
-                    }
-                    controller.upPressed = true;
-                } else {
+                controller.keyPressed("up", () => currentPlayer.target--)
+                if (!controller.up) {
                     controller.upPressed = false;
                 }
-                if (controller.keyPressed("down")) {
+                controller.keyPressed("down", () => {
                     currentPlayer.target++;
-                    if (currentPlayer.target >= enemyTeamLength) {
-                        currentPlayer.target -= enemyTeamLength
-                    }
-                    controller.downPressed = true;
-                } else {
+                })
+                if (!controller.down) {
                     controller.downPressed = false;
+                }
+                if (currentPlayer.target < 0) {
+                    currentPlayer.target += enemyTeamLength
+                }
+                if (currentPlayer.target >= enemyTeamLength) {
+                    currentPlayer.target -= enemyTeamLength
+                }
+                controller.keyPressed("return", () => currentPlayer.menu = 0)
+                if (!controller.return) {
+                    controller.returnPressed = false;
                 }
         }
     }
