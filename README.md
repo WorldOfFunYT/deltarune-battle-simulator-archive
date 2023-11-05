@@ -1,3 +1,8 @@
+**This repository is not the main one anymore, since I am starting again but didn't want to delete all this.** New repos:
+- [Main](https://github.com/WorldOfFunYT/deltarune-battle-simulator)
+- [Prototypes](https://github.com/WorldOfFunYT/deltarune-battle-simulator-prototypes)
+
+
 Contents
 - [Deltarune Battle Simulator](#deltarune-battle-simulator)
   - [To-do](#to-do)
